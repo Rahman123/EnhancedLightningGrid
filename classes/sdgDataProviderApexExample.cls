@@ -17,10 +17,11 @@ global with sharing class sdgDataProviderApexExample implements sdgIDataProvider
         integer dataoffset = request.pageid * request.pagesize;
         integer datalimit = request.PageSize;
         sdgSecurity.CanQuery('sdgDataProviderApexExample:getData', 'Account', '', 'name', '', true);
-        
-        result.data = [select name from account where name like 'U%' ];
 
-        result.query='CustomDataProviderExample';
+        //This is commented to allow installation on an org where name is encrypted.         
+        result.data = [select name from account  ];
+
+        result.query='sdgDataProviderApexExample';
         result.FullQueryCount = result.data.size();
         result.pagecount = 1;
         result.isError = false;
@@ -30,8 +31,8 @@ global with sharing class sdgDataProviderApexExample implements sdgIDataProvider
 
     global   SDG LoadSDG(String SDGTag, String ParentRecordId)
     {
-        system.debug('CustomDataProviderExample:LoadSDG');
-        SDG CoreSDG = new SDG( 'CustomDataProviderExample' );
+        system.debug('sdgDataProviderApexExample:LoadSDG');
+        SDG CoreSDG = new SDG( 'sdgDataProviderApexExample' );
 
         CoreSDG.SDGActions = getActions();
         CoreSDG.SDGFields = getFields();
